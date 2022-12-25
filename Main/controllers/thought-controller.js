@@ -29,18 +29,19 @@ const thoughtController = {
           });
       },
 
-    // Delete a course
+    // Delete a thought
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: 'No thought with that ID' })
-          : User.deleteMany({ _id: { $in: thought.user } })
+          ? res.status(404).json({ message: 'No thought with that id' })
+          : User.deleteMany({ _id: { $in: thought.thought }})
       )
-      .then(() => res.json({ message: 'Thought and user deleted!' }))
+      .then(() => res.json({ message: 'Thought has been deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
-
+  
+  // Update a thought
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },

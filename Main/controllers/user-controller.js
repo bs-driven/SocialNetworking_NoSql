@@ -9,7 +9,7 @@ const userController = {
     },
 
      // Get a single user
-     getSingleThought(req,res) {
+     getSingleUser(req,res) {
         User.findOne({_id: req.pramas.userId})
         .select('-__v')
         .then((user) =>
@@ -31,7 +31,7 @@ const userController = {
       },
 
       // Update a user
-  updateThought(req, res) {
+  updateUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
@@ -46,7 +46,7 @@ const userController = {
   },
 
     // Delete a user
-    deleteThought(req, res) {
+    deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
           .then((user) =>
             !user
@@ -56,6 +56,35 @@ const userController = {
           .then(() => res.json({ message: 'user has been deleted!' }))
           .catch((err) => res.status(500).json(err));
       },
+
+      // add a friend
+      addFriend(req,res){
+        User.findOneAndUpdate(
+          {_id: req.params.userId},
+          {$pull:{friends: req,params,friendId}},
+          {new: true}
+        ) .then((friend) =>{
+          !friend
+            ? res.status(400).json({ message: 'no user found with that id' })
+            : res.status(200).json(friend)
+        }) .catch((err)=> res.status(500).json(err));
+      },
+
+      // remove a friend
+      removeFriend(req,res){
+        User.findOneAndUpdate(
+          { _id: req.params.userId },
+          { $pull: { friends: req.params.friendId }},
+          { new: true}
+      )
+      .then((friend) => {
+          !friend
+          ? res.status(400).json({ message: 'no user found with that id' })
+          : res.status(200).json(friend)
+      })
+      .catch((err) => res.status(500).json(err));
+  
+      }
 
 
  

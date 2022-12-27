@@ -11,7 +11,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        match:[[\w.]+@\w\.\w{3}, 'Is not a email address'],
+        match:[/[\w.]+@\w+\.\w{3}/, 'Is not a email address'],
 
     },
     thoughts: [
@@ -31,7 +31,6 @@ const userSchema = new Schema({
  
 );
 
-// Add virtual
 userSchema.virtual('friendCount').get(function () {
     return this.friends.length
 });

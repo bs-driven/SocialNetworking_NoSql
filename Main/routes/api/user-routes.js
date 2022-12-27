@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  getUsers,
+  getUser,
   getSingleUser,
   createUser,
   updateUser,
@@ -11,7 +11,7 @@ const {
   // Exported functions from user controller
 router
   .route('/')
-  .get(getUsers)
+  .get(getUser)
   .post(createUser);
 
 router

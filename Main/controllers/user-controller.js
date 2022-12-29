@@ -9,9 +9,10 @@ const userController = {
     },
 
      // Get a single user
-     getSingleUser(req,res) {
-        User.findOne({_id: req.pramas.userId})
+     getSingleUser(req, res) {
+        User.findOne({ _id: req.params.userId })
         .select('-__v')
+        .populate('thoughts')
         .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
@@ -51,7 +52,7 @@ const userController = {
           .then((user) =>
             !user
               ? res.status(404).json({ message: 'No user with that id' })
-              : Thought.deleteMany({ _id: { $in: user.thought }})
+              : Thought.deleteMany({ _id: { $in: user.thoughts }})
           )
           .then(() => res.json({ message: 'user has been deleted!' }))
           .catch((err) => res.status(500).json(err));
@@ -61,7 +62,7 @@ const userController = {
       addFriend(req,res){
         User.findOneAndUpdate(
           {_id: req.params.userId},
-          {$pull:{friends: req,params,friendId}},
+          {$pull:{ friends: req,params,friendId }},
           {new: true}
         ) .then((friend) =>{
           !friend

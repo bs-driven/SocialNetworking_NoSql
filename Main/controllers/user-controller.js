@@ -12,13 +12,12 @@ const userController = {
      getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
         .select('-__v')
-        .populate('thoughts')
         .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
           : res.json(user)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => res.status(500).json(err))
     },
 
      // create a User
@@ -62,7 +61,7 @@ const userController = {
       addFriend(req,res){
         User.findOneAndUpdate(
           {_id: req.params.userId},
-          {$pull:{ friends: req,params,friendId }},
+          {$pull:{ friends: req.params.friendId }},
           {new: true}
         ) .then((friend) =>{
           !friend

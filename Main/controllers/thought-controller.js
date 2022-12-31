@@ -10,7 +10,7 @@ const thoughtController = {
 
     // Get a single thought
     getSingleThought(req,res) {
-        Thought.findOne({_id: req.pramas.thoughtId})
+        Thought.findOne({ _id: req.params.thoughtId })
         .select('-__v')
         .then((thought) =>
         !thought

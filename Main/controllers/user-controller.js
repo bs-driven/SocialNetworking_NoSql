@@ -61,7 +61,7 @@ const userController = {
       addFriend(req,res){
         User.findOneAndUpdate(
           {_id: req.params.userId},
-          {$pull:{ friends: req.params.friendId }},
+          {$push:{ friends: req.params.friendId }},
           {new: true}
         ) .then((friend) =>{
           !friend

@@ -22,7 +22,7 @@ router
 
   router
 .route('/:userId/friends/:friendId')
-.post(addFriend),
+.put(addFriend),
 
 router
 .route('/:userId/friends/:friendId')
